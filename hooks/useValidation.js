@@ -28,12 +28,17 @@ const useValidation = (stateinicial, validar, fn) => {
         setError(validar(valor));
         setSubmitForm(true);
     };
+
+    const handleBlur = () => {
+        setError(validar(valor));
+    };
+
     return {
         valor,
         error,
-        submitForm,
         handleChange,
         handleSubmit,
+        handleBlur,
     };
 };
 

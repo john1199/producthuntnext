@@ -35,3 +35,15 @@ export const Submit = styled.input`
     font-weight: 700;
     cursor: pointer;
 `;
+
+export const Error = styled.p`
+    background-color: red;
+    padding: 1rem;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin: 2rem 0;
+`;

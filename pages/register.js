@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../components/layout/Layout";
-import { Form, Campo, Submit } from "../components/ui/Form";
+import { Form, Campo, Submit, Error } from "../components/ui/Form";
 import { css } from "@emotion/react";
 
 import useValidation from "../hooks/useValidation";
@@ -15,7 +15,7 @@ const Register = () => {
     const register = () => {
         console.log(state);
     };
-    const { valor, error, submitForm, handleChange, handleSubmit } =
+    const { valor, error, handleChange, handleSubmit, handleBlur } =
         useValidation(state, validarRegister, register);
     const { nombre, email, password } = valor;
     return (
@@ -29,6 +29,10 @@ const Register = () => {
                 >
                     Register
                 </h1>
+                {error &&
+                    Object.values(error).map((err) => (
+                        <Error key={err}>{err}</Error>
+                    ))}
                 <Form onSubmit={handleSubmit} noValidate>
                     <Campo>
                         <label htmlFor="nombre">Nombre</label>
@@ -39,6 +43,7 @@ const Register = () => {
                             name="nombre"
                             value={nombre}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                         />
                     </Campo>
 
@@ -51,6 +56,7 @@ const Register = () => {
                             name="email"
                             value={email}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                         />
                     </Campo>
 
@@ -63,6 +69,7 @@ const Register = () => {
                             name="password"
                             value={password}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                         />
                     </Campo>
                     <Submit type="submit" value="Registrar" />
