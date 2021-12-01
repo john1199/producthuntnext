@@ -1,9 +1,23 @@
 import React from "react";
 import Layout from "../components/layout/Layout";
 import { Form, Campo, Submit } from "../components/ui/Form";
-import { css } from "@emotion/react"; 
+import { css } from "@emotion/react";
 
+import useValidation from "../hooks/useValidation";
+import validarRegister from "../validacion/validarRegister";
+
+const state = {
+    nombre: "",
+    email: "",
+    password: "",
+};
 const Register = () => {
+    const register = () => {
+        console.log(state);
+    };
+    const { valor, error, submitForm, handleChange, handleSubmit } =
+        useValidation(state, validarRegister, register);
+    const { nombre, email, password } = valor;
     return (
         <>
             <Layout>
@@ -15,7 +29,7 @@ const Register = () => {
                 >
                     Register
                 </h1>
-                <Form>
+                <Form onSubmit={handleSubmit} noValidate>
                     <Campo>
                         <label htmlFor="nombre">Nombre</label>
                         <input
@@ -23,6 +37,8 @@ const Register = () => {
                             id="nombre"
                             placeholder="nombre"
                             name="nombre"
+                            value={nombre}
+                            onChange={handleChange}
                         />
                     </Campo>
 
@@ -33,6 +49,8 @@ const Register = () => {
                             id="email"
                             placeholder="email"
                             name="email"
+                            value={email}
+                            onChange={handleChange}
                         />
                     </Campo>
 
@@ -43,6 +61,8 @@ const Register = () => {
                             id="password"
                             placeholder="password"
                             name="password"
+                            value={password}
+                            onChange={handleChange}
                         />
                     </Campo>
                     <Submit type="submit" value="Registrar" />
