@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../components/layout/Layout";
+import Router from "next/router";
 import { Form, Campo, Submit, Error } from "../components/ui/Form";
 import { css } from "@emotion/react";
 
 import useValidation from "../hooks/useValidation";
 import validarRegister from "../validacion/validarRegister";
+import firebase from "../firebase/firebase";
 
 const state = {
     nombre: "",
@@ -12,12 +14,21 @@ const state = {
     password: "",
 };
 const Register = () => {
-    const register = () => {
-        console.log(state);
+    const [err, serErr] = useState(false);
+
+    const register = async () => {
+        try {
+            await firebase.register(nombre, email, password);
+            Router.push("/");
+        } catch (e) {
+            console.log(e.message);
+            serErr(e.message);
+        }
     };
     const { valor, error, handleChange, handleSubmit, handleBlur } =
         useValidation(state, validarRegister, register);
     const { nombre, email, password } = valor;
+
     return (
         <>
             <Layout>
@@ -33,6 +44,7 @@ const Register = () => {
                     Object.values(error).map((err) => (
                         <Error key={err}>{err}</Error>
                     ))}
+                {err && <Error>{err}</Error>}
                 <Form onSubmit={handleSubmit} noValidate>
                     <Campo>
                         <label htmlFor="nombre">Nombre</label>
@@ -72,7 +84,11 @@ const Register = () => {
                             onBlur={handleBlur}
                         />
                     </Campo>
-                    <Submit type="submit" value="Registrar" />
+                    <Submit
+                        type="submit"
+                        value="Registrar"
+                        onClick={register}
+                    />
                 </Form>
             </Layout>
         </>
