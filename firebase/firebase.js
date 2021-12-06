@@ -3,7 +3,10 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     updateProfile,
+    signInWithEmailAndPassword,
+    signOut,
 } from "firebase/auth";
+
 import firebaseConfig from "./config";
 
 class Firebase {
@@ -23,6 +26,14 @@ class Firebase {
         await updateProfile(this.auth.currentUser, {
             displayName: name,
         });
+    }
+
+    async login(email, password) {
+        await signInWithEmailAndPassword(this.auth, email, password);
+    }
+
+    async logout() {
+        await signOut(this.auth);
     }
 }
 
